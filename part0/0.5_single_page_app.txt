@@ -1,0 +1,13 @@
+title Part 0.5: Single page app
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: HTML Code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server->Browser: main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server->Browser: spa.js
+note left of Browser: Executes JS code that \nrequests data from the server
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: data.json
+
+note left of Browser: Executes event handler that \nreads and renders notes from data.json

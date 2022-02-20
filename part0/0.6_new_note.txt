@@ -1,0 +1,9 @@
+title Part 0.6: New note
+
+note left of Browser: On form submit, browser executes \nJS event handler that does the following:
+note left of Browser: 1. Browser adds new note to current list of notes
+note left of Browser: 2. Browser empties the input text box
+note left of Browser: 3. Browser redraws all notes
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note right of Server: Server adds new note to current list of notes
+Server->Browser: HTTP status code 201 indicating note was created

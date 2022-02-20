@@ -1,0 +1,16 @@
+title Part 0.4: new note
+
+note left of Browser: On form submit
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note right of Server: Add new note to the current list of notes
+Server->Browser: URL redirect to /exampleapp/notes
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server->Browser: HTML code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server->Browser: main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server->Browser: main.js
+note left of Browser: Executes JS code that \nrequests data from the server
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: data.json
+note left of Browser: Executes event handler that \nreads notes from data.json \nand displays them
