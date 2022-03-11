@@ -1,17 +1,19 @@
-import { React, useState } from 'react';
-import CountryDetails from './CountryDetails';
+import { React, useState } from "react";
+import CountryDetail from "./CountryDetail";
 
 const Country = function ({ country }) {
-    const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
+  const buttonText = show ? "Hide" : "Show";
 
-    return (
-        <div>
-            <p>{country.name.common}
-                <button onClick={() => setShow(!show)}>Show</button>
-            </p>
-            {show ? <CountryDetails country={country} /> : null}
-        </div>
-    );
-}
+  return (
+    <div>
+      <p>
+        {country.name.common}
+        <button onClick={() => setShow(!show)}>{buttonText}</button>
+      </p>
+      {show ? <CountryDetail country={country} /> : null}
+    </div>
+  );
+};
 
 export default Country;
