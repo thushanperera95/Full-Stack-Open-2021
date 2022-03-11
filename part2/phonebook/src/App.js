@@ -1,58 +1,96 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import Filter from './components/Filter'
-import PersonForm from './components/PersonForm'
-import Persons from './components/Persons'
+import { useState, useEffect } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
+import personService from "./services/personService";
 
 const App = () => {
-  const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [filterText, setFilterText] = useState('')
+  const [persons, setPersons] = useState([]);
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+    personService.getAll().then((initialPersons) => setPersons(initialPersons));
+  }, []);
 
-  const addPerson = (event) => {
-    event.preventDefault()
+  const updatePerson = (existingPerson) => {
+    const updateMessage = `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`;
 
-    const personObject = {
+    if (window.confirm(updateMessage)) {
+      const updatedPerson = { ...existingPerson, number: newNumber };
+
+      personService
+        .update(existingPerson.id, updatedPerson)
+        .then((returnedPerson) => {
+          setPersons(
+            persons.map((person) =>
+              person.id !== updatedPerson.id ? person : returnedPerson
+            )
+          );
+
+          setNewName("");
+          setNewNumber("");
+        });
+    }
+  };
+
+  const createPerson = (newPerson) => {
+    personService.create(newPerson).then((newPerson) => {
+      setPersons(persons.concat(newPerson));
+      setNewName("");
+      setNewNumber("");
+    });
+  };
+
+  const deletePerson = (id) => {
+    const personToDelete = persons.find((person) => person.id === id);
+    const deleteMessage = `Delete ${personToDelete.name} ?`;
+
+    if (window.confirm(deleteMessage)) {
+      personService
+        .remove(id)
+        .then(() => setPersons(persons.filter((person) => person.id !== id)));
+    }
+  };
+
+  const onAddPerson = (event) => {
+    event.preventDefault();
+
+    const newPerson = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+    };
+
+    const existingPerson = persons.find(
+      (person) => person.name === newPerson.name
+    );
+
+    if (existingPerson) {
+      updatePerson(existingPerson);
+    } else {
+      createPerson(newPerson);
     }
+  };
 
-    const isValidName = (name) => !persons.some(person => person.name === name)
-
-    if (!isValidName(personObject.name)) {
-      alert(`${personObject.name} is already added to phonebook`)
-      return
-    }
-
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
-  }
-
-  const personsToShow = filterText.length == 0
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().startsWith(filterText.toLowerCase()))
+  const personsToShow =
+    filterText.length == 0
+      ? persons
+      : persons.filter((person) =>
+          person.name.toLowerCase().startsWith(filterText.toLowerCase())
+        );
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
+    setNewName(event.target.value);
+  };
 
   const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
+    setNewNumber(event.target.value);
+  };
 
   const handleFilterChange = (event) => {
-    setFilterText(event.target.value)
-  }
+    setFilterText(event.target.value);
+  };
 
   return (
     <div>
@@ -62,13 +100,19 @@ const App = () => {
 
       <h3>add a new</h3>
 
-      <PersonForm onFormSubmit={addPerson} nameValue={newName} onNameChange={handleNameChange} numberValue={newNumber} onNumberChange={handleNumberChange} />
+      <PersonForm
+        onFormSubmit={onAddPerson}
+        nameValue={newName}
+        onNameChange={handleNameChange}
+        numberValue={newNumber}
+        onNumberChange={handleNumberChange}
+      />
 
       <h3>Numbers</h3>
 
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleDeletePerson={deletePerson} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

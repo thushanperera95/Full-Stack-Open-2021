@@ -1,17 +1,25 @@
-import React from 'react';
+import React from "react";
 
-const Person = ({ name, number }) => (
-  <p>{name} {number}</p>
-)
+const Person = ({ name, number, handleDeletePerson }) => (
+  <p>
+    {name} {number}
+    <button onClick={handleDeletePerson}>delete</button>
+  </p>
+);
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, handleDeletePerson }) => {
   return (
     <div>
-      {persons.map(person =>
-        <Person key={person.name} name={person.name} number={person.number} />
-      )}
+      {persons?.map((person) => (
+        <Person
+          key={person.id}
+          name={person.name}
+          number={person.number}
+          handleDeletePerson={() => handleDeletePerson(person.id)}
+        />
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export default Persons;
