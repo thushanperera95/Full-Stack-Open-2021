@@ -2,28 +2,21 @@ import axios from "axios";
 const baseUrl = "http://localhost:3001/persons";
 
 const getAll = () => {
-  return axios
-    .get(baseUrl)
-    .then((response) => response.data)
-    .catch((error) => alert(error));
+  return axios.get(baseUrl).then((response) => response.data);
 };
 
 const create = (newObject) => {
-  return axios
-    .post(baseUrl, newObject)
-    .then((response) => response.data)
-    .catch((error) => alert(error));
+  return axios.post(baseUrl, newObject).then((response) => response.data);
 };
 
 const remove = (id) => {
-  return axios.delete(`${baseUrl}/${id}`).catch((error) => alert(error));
+  return axios.delete(`${baseUrl}/${id}`, { data: { id: id } });
 };
 
 const update = (id, newObject) => {
   return axios
     .put(`${baseUrl}/${id}`, newObject)
-    .then((response) => response.data)
-    .catch((error) => alert(error));
+    .then((response) => response.data);
 };
 
 export default { getAll, create, remove, update };
