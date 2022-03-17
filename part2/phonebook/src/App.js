@@ -65,6 +65,8 @@ const App = () => {
             setPersons(
               persons.filter((person) => person.id !== updatedPerson.id)
             );
+          } else {
+            displayErrorNotification(error.response.data.error);
           }
         });
     }
@@ -80,8 +82,9 @@ const App = () => {
 
         displayInfoNotification(`Added ${newPerson.name}`);
       })
-      .catch(() => {
-        displayErrorNotification(`Unable to add ${newPerson.name}`);
+      .catch((error) => {
+        console.log(error.response.data);
+        displayErrorNotification(error.response.data.error);
       });
   };
 
