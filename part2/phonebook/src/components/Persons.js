@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
 const Person = ({ name, number, handleDeletePerson }) => (
   <p>
     {name} {number}
     <button onClick={handleDeletePerson}>delete</button>
   </p>
-);
+)
 
 const Persons = ({ persons, handleDeletePerson }) => {
   return (
@@ -19,7 +19,7 @@ const Persons = ({ persons, handleDeletePerson }) => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Persons;
+export default Persons

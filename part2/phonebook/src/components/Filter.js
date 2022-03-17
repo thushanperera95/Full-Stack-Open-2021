@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Filter = ({ filterText, onFilterChange }) => {
   return (
@@ -8,4 +8,4 @@ const Filter = ({ filterText, onFilterChange }) => {
   )
 }
 
-export default Filter;
+export default Filter

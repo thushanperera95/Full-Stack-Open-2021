@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const PersonForm = ({ onFormSubmit, nameValue, onNameChange, numberValue, onNumberChange }) => {
   return (
@@ -16,4 +16,4 @@ const PersonForm = ({ onFormSubmit, nameValue, onNameChange, numberValue, onNumb
   )
 }
 
-export default PersonForm;
+export default PersonForm
