@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import LoginDetails from './components/LoginDetails'
-import BlogCreateForm from './components/BlogCreateForm'
+import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
-import notificationService from './services/notification'
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [notification, setNotification] = useState('')
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const blogFormToggleRef = useRef()
+  const notificationRef = useRef()
 
   useEffect(async () => {
     const blogs = await blogService.getAll()
@@ -31,90 +26,89 @@ function App() {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
+
+      blogService.setToken(user.token)
       setUser(user)
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
+  const handleLogin = async (credentials) => {
     try {
-      const user = await loginService.login({
-        username, password
-      })
+      const user = await loginService.login(credentials)
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+
     } catch (exception) {
-      notificationService.displayErrorNotification(exception.response.data.error, setNotification)
+      notificationRef.current.displayErrorNotification(exception.response.data.error)
     }
   }
 
-  const handleLogout = async (event) => {
+  const handleLogout = async () => {
     window.localStorage.removeItem('loggedBlogappUser')
+
     setUser(null)
 
-    notificationService.displayInfoNotification('you have logged out', setNotification)
+    notificationRef.current.displayInfoNotification('you have logged out')
   }
 
-  const handleCreateNewBlog = async (event) => {
-    event.preventDefault()
-
+  const createBlog = async (newBlog) => {
     try {
-      const newBlog = {
-        title: title,
-        author: author,
-        url: url
-      }
-
       const savedBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(savedBlog))
 
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      blogFormToggleRef.current.toggleVisibility()
+      notificationRef.current.displayInfoNotification(`a new blog ${savedBlog.title} by ${savedBlog.author} added`)
 
-      notificationService.displayInfoNotification(
-        `a new blog ${savedBlog.title} by ${savedBlog.author} added`,
-        setNotification
-      )
     } catch (exception) {
-      notificationService.displayErrorNotification(exception.response.data.error, setNotification)
+      notificationRef.current.displayErrorNotification(exception.response.data.error)
+    }
+  }
+
+  const incrementBlogLikes = async (blogToUpdate) => {
+    try {
+      blogToUpdate.likes += 1
+
+      const updatedBlog = await blogService.update(blogToUpdate.id, blogToUpdate)
+      setBlogs(blogs.map(blog => updatedBlog.id !== blog.id ? blog : updatedBlog))
+
+    } catch (exception) {
+      notificationRef.current.displayErrorNotification(exception.response.data.error)
+    }
+  }
+
+  const deleteBlog = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    } catch (exception) {
+      notificationRef.current.displayErrorNotification(exception.response.data.error)
     }
   }
 
   return (
     <div>
       <h2>blogs</h2>
-      <Notification notification={notification} />
+      <Notification ref={notificationRef} />
       {user === null &&
-        <LoginForm
-          usernameState={{ username, setUsername }}
-          passwordState={{ password, setPassword }}
-          handleLogin={handleLogin}
-        />
+        <LoginForm handleLogin={handleLogin} />
       }
       {user !== null &&
         <>
           <LoginDetails
             user={user}
-            handleLogout={handleLogout}
+            handleLogout={() => handleLogout()}
           />
-          <BlogCreateForm
-            titleState={{ title, setTitle }}
-            authorState={{ author, setAuthor }}
-            urlState={{ url, setUrl }}
-            handleCreateNewBlog={handleCreateNewBlog}
-          />
+          <Togglable buttonLabel="new note" ref={blogFormToggleRef}>
+            <BlogForm createBlog={createBlog} />
+          </Togglable>
           <Blogs
             blogs={blogs}
+            incrementBlogLikes={incrementBlogLikes}
+            deleteBlog={deleteBlog}
+            loggedInUser={user}
           />
         </>
       }
