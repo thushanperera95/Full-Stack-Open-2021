@@ -51,7 +51,7 @@ const BlogForm = ({ createBlog }) => {
           <input
             type="text"
             value={newUrl}
-            name="author"
+            name="url"
             id="input-url"
             onChange={({ target }) => setNewUrl(target.value)}
             required

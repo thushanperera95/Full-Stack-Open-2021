@@ -60,7 +60,7 @@ const Notification = forwardRef((_,ref) => {
   }
 
 
-  return <div style={selectNotificationStyle()}>{message}</div>
+  return <div className="notification" style={selectNotificationStyle()}>{message}</div>
 })
 
 Notification.displayName = 'Notification'
