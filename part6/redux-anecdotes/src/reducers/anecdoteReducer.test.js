@@ -1,6 +1,5 @@
 import deepFreeze from 'deep-freeze'
 import anecdoteReducer from './anecdoteReducer'
-import { voteAnecdote, addAnecdote } from './anecdoteReducer'
 
 describe('anecdote reducer', () => {
   const initialState = [
@@ -27,9 +26,13 @@ describe('anecdote reducer', () => {
 
   test('vote is incremented on target anecdote', () => {
     const state = initialState
+    const action = {
+      type: 'anecdotes/vote',
+      payload: 4567
+    }
 
     deepFreeze(state)
-    const newState = anecdoteReducer(state, voteAnecdote(4567))
+    const newState = anecdoteReducer(state, action)
     expect(newState).toEqual(
       [
         {
@@ -48,10 +51,13 @@ describe('anecdote reducer', () => {
 
   test('add results in new anecdote added to the list of anecdotes', () => {
     const state = initialState
-    const newAnecdote = 'This is a new anecdote'
+    const action = {
+      type: 'anecdotes/add',
+      payload: 'This is a new anecdote'
+    }
 
     deepFreeze(state)
-    const newState = anecdoteReducer(state, addAnecdote(newAnecdote))
+    const newState = anecdoteReducer(state, action)
     expect(newState.length).toEqual(3)
 
     const newlyAddedAnecdote = newState.find(n => n.content === 'This is a new anecdote')
