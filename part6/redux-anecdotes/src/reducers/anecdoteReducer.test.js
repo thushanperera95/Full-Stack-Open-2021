@@ -21,7 +21,7 @@ describe('anecdote reducer', () => {
     }
 
     const newState = anecdoteReducer(undefined, action)
-    expect(newState.length).toEqual(6)
+    expect(newState.length).toEqual(0)
   })
 
   test('vote is incremented on target anecdote', () => {
@@ -53,7 +53,11 @@ describe('anecdote reducer', () => {
     const state = initialState
     const action = {
       type: 'anecdotes/add',
-      payload: 'This is a new anecdote'
+      payload: {
+        content: 'This is a new anecdote',
+        id: 9999,
+        votes: 0
+      }
     }
 
     deepFreeze(state)
