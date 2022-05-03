@@ -1,0 +1,75 @@
+{
+  "notes": [
+    {
+      "content": "custom-hooks are great",
+      "id": 1
+    },
+    {
+      "content": "the best featrure ever <3",
+      "id": 2
+    },
+    {
+      "content": "this is a test",
+      "id": 3
+    },
+    {
+      "content": "this is a test2",
+      "id": 4
+    },
+    {
+      "content": "thisd is a test 43",
+      "id": 5
+    },
+    {
+      "content": "this isa test9",
+      "id": 6
+    },
+    {
+      "content": "does this have an id",
+      "id": 7
+    },
+    {
+      "content": "does this have an id2",
+      "id": 8
+    },
+    {
+      "content": "does this have an id2",
+      "id": 9
+    },
+    {
+      "content": "does this have an id final?",
+      "id": 10
+    },
+    {
+      "content": "final test",
+      "id": 11
+    }
+  ],
+  "persons": [
+    {
+      "name": "mluukkai",
+      "number": "040-5483923",
+      "id": 1
+    },
+    {
+      "name": "kaltsoon",
+      "number": "045-2323456",
+      "id": 2
+    },
+    {
+      "name": "thushan perera",
+      "number": "0425394096",
+      "id": 3
+    },
+    {
+      "name": "eshani",
+      "number": "12345",
+      "id": 4
+    },
+    {
+      "name": "final person",
+      "number": "123",
+      "id": 5
+    }
+  ]
+}

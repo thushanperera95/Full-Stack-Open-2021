@@ -74,13 +74,13 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.props.value,
+      author: author.props.value,
+      info: info.props.value,
       votes: 0
     })
     navigate('/')
-    props.notify(`a new anecdote ${content.value} created!`)
+    props.notify(`a new anecdote ${content.props.value} created!`)
   }
 
   const handleReset = (e) => {
