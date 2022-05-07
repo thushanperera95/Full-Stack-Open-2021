@@ -1,14 +1,18 @@
 import { useState } from "react";
 
-export const useVisibility = () => {
-  const [visible, setVisible] = useState(false);
+export const useField = (type) => {
+  const [value, setValue] = useState("");
 
-  const toggleVisibility = () => {
-    setVisible(!visible);
+  const onChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const reset = () => {
+    setValue("");
   };
 
   return {
-    visible,
-    toggleVisibility,
+    props: { type, value, onChange },
+    reset,
   };
 };

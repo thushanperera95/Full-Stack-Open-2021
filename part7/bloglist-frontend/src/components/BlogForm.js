@@ -3,30 +3,31 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { hideToggle } from "../reducers/toggleReducer";
+import { useField } from "../hooks";
 
 const BlogForm = ({ toggleId }) => {
   const dispatch = useDispatch();
 
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
+  const title = useField("text");
+  const author = useField("text");
+  const url = useField("text");
 
   const handleCreateBlog = (event) => {
     event.preventDefault();
 
     dispatch(
       createBlog({
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl,
+        title: title.props.value,
+        author: author.props.value,
+        url: url.props.value,
       })
     );
 
     dispatch(hideToggle(toggleId));
 
-    setNewTitle("");
-    setNewAuthor("");
-    setNewUrl("");
+    title.reset();
+    author.reset();
+    url.reset();
   };
 
   return (
@@ -35,36 +36,15 @@ const BlogForm = ({ toggleId }) => {
       <form onSubmit={handleCreateBlog}>
         <div>
           title:
-          <input
-            type="text"
-            value={newTitle}
-            name="title"
-            id="input-title"
-            onChange={({ target }) => setNewTitle(target.value)}
-            required
-          />
+          <input {...title.props} name="title" id="input-title" required />
         </div>
         <div>
           author:
-          <input
-            type="text"
-            value={newAuthor}
-            name="author"
-            id="input-author"
-            onChange={({ target }) => setNewAuthor(target.value)}
-            required
-          />
+          <input {...author.props} name="author" id="input-author" required />
         </div>
         <div>
           url:
-          <input
-            type="text"
-            value={newUrl}
-            name="url"
-            id="input-url"
-            onChange={({ target }) => setNewUrl(target.value)}
-            required
-          />
+          <input {...url.props} name="url" id="input-url" required />
         </div>
         <button type="submit">create</button>
       </form>
