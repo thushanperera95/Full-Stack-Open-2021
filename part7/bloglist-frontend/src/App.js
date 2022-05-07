@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
@@ -14,12 +14,11 @@ import {
   displayInfoNotification,
   displayErrorNotification,
 } from "./reducers/notificationReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
 
 function App() {
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state.blogs);
 
   const newNoteToggleId = "NEW_NOTE";
 
@@ -60,31 +59,6 @@ function App() {
     dispatch(displayInfoNotification("you have logged out"));
   };
 
-  const incrementBlogLikes = async (blogToUpdate) => {
-    try {
-      blogToUpdate.likes += 1;
-
-      const updatedBlog = await blogService.update(
-        blogToUpdate.id,
-        blogToUpdate
-      );
-      setBlogs(
-        blogs.map((blog) => (updatedBlog.id !== blog.id ? blog : updatedBlog))
-      );
-    } catch (exception) {
-      dispatch(displayErrorNotification(exception.response.data.error));
-    }
-  };
-
-  const deleteBlog = async (id) => {
-    try {
-      await blogService.remove(id);
-      setBlogs(blogs.filter((blog) => blog.id !== id));
-    } catch (exception) {
-      dispatch(displayErrorNotification(exception.response.data.error));
-    }
-  };
-
   return (
     <div>
       <h2>blogs</h2>
@@ -96,11 +70,7 @@ function App() {
           <Togglable id={newNoteToggleId} buttonLabel="new note">
             <BlogForm toggleId={newNoteToggleId} />
           </Togglable>
-          <Blogs
-            incrementBlogLikes={incrementBlogLikes}
-            deleteBlog={deleteBlog}
-            loggedInUser={user}
-          />
+          <Blogs loggedInUser={user} />
         </>
       )}
     </div>

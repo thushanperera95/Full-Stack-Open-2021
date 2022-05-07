@@ -8,9 +8,9 @@ import { useField } from "../hooks";
 const BlogForm = ({ toggleId }) => {
   const dispatch = useDispatch();
 
-  const title = useField("text");
-  const author = useField("text");
-  const url = useField("text");
+  const title = useField("text", "title");
+  const author = useField("text", "author");
+  const url = useField("text", "url");
 
   const handleCreateBlog = (event) => {
     event.preventDefault();
@@ -36,15 +36,15 @@ const BlogForm = ({ toggleId }) => {
       <form onSubmit={handleCreateBlog}>
         <div>
           title:
-          <input {...title.props} name="title" id="input-title" required />
+          <input {...title.props} required />
         </div>
         <div>
           author:
-          <input {...author.props} name="author" id="input-author" required />
+          <input {...author.props} required />
         </div>
         <div>
           url:
-          <input {...url.props} name="url" id="input-url" required />
+          <input {...url.props} required />
         </div>
         <button type="submit">create</button>
       </form>

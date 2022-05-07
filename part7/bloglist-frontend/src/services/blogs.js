@@ -27,7 +27,6 @@ const update = async (id, newObject) => {
 };
 
 const remove = async (id) => {
-  console.log(token);
   await axios.delete(`${baseUrl}/${id}`, {
     headers: {
       Authorization: token,

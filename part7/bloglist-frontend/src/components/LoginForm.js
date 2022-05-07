@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { useField } from "../hooks";
 
 const LoginForm = ({ handleLogin }) => {
-  const username = useField("text");
-  const password = useField("password");
+  const username = useField("text", "username");
+  const password = useField("password", "password");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,11 +22,11 @@ const LoginForm = ({ handleLogin }) => {
     <form onSubmit={handleSubmit}>
       <div>
         username
-        <input {...username.props} name="Username" required />
+        <input {...username.props} required />
       </div>
       <div>
         password
-        <input {...password.props} name="Password" required />
+        <input {...password.props} required />
       </div>
       <button type="submit">login</button>
     </form>

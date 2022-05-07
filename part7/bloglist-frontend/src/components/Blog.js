@@ -1,7 +1,11 @@
 import { React, useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { deleteBlog, likeBlog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, incrementBlogLikes, deleteBlog, loggedInUser }) => {
+const Blog = ({ blog, loggedInUser }) => {
+  const dispatch = useDispatch();
+
   const [show, setShow] = useState(false);
   const buttonText = show ? "Hide" : "Show";
 
@@ -16,13 +20,9 @@ const Blog = ({ blog, incrementBlogLikes, deleteBlog, loggedInUser }) => {
     marginBottom: 5,
   };
 
-  const handleIncrementBlogLikes = () => {
-    incrementBlogLikes(blog);
-  };
-
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      deleteBlog(blog.id);
+      dispatch(deleteBlog(blog.id));
     }
   };
 
@@ -37,7 +37,7 @@ const Blog = ({ blog, incrementBlogLikes, deleteBlog, loggedInUser }) => {
           {blog.url}
           <br />
           likes {blog.likes}{" "}
-          <button onClick={() => handleIncrementBlogLikes()}>like</button>
+          <button onClick={() => dispatch(likeBlog(blog))}>like</button>
           <br />
           {blog.user && blog.user.name}
           {showDeleteButton && (
@@ -59,8 +59,6 @@ const Blog = ({ blog, incrementBlogLikes, deleteBlog, loggedInUser }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  incrementBlogLikes: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 

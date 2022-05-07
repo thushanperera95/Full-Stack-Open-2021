@@ -3,7 +3,7 @@ import Blog from "./Blog";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const Blogs = ({ incrementBlogLikes, deleteBlog, loggedInUser }) => {
+const Blogs = ({ loggedInUser }) => {
   const blogs = useSelector((state) => state.blogs);
 
   return (
@@ -11,21 +11,13 @@ const Blogs = ({ incrementBlogLikes, deleteBlog, loggedInUser }) => {
       {[...blogs]
         .sort((a, b) => (a.likes > b.likes ? -1 : 1))
         .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            incrementBlogLikes={incrementBlogLikes}
-            deleteBlog={deleteBlog}
-            loggedInUser={loggedInUser}
-          />
+          <Blog key={blog.id} blog={blog} loggedInUser={loggedInUser} />
         ))}
     </>
   );
 };
 
 Blogs.propTypes = {
-  incrementBlogLikes: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 

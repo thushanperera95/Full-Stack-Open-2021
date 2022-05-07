@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useField = (type) => {
+export const useField = (type, name) => {
   const [value, setValue] = useState("");
 
   const onChange = (event) => {
@@ -12,7 +12,7 @@ export const useField = (type) => {
   };
 
   return {
-    props: { type, value, onChange },
+    props: { type, value, name, id: `input-${name}`, onChange },
     reset,
   };
 };
