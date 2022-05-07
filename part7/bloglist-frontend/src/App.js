@@ -15,15 +15,15 @@ import {
   displayErrorNotification,
 } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeBlogs, createBlog } from "./reducers/blogReducer";
+import { initializeBlogs } from "./reducers/blogReducer";
 
 function App() {
   const dispatch = useDispatch();
-
   const blogs = useSelector((state) => state.blogs);
-  const [user, setUser] = useState(null);
 
-  const blogFormToggleRef = useRef();
+  const newNoteToggleId = "NEW_NOTE";
+
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     dispatch(initializeBlogs());
@@ -60,11 +60,6 @@ function App() {
     dispatch(displayInfoNotification("you have logged out"));
   };
 
-  const createNewBlog = async (newBlog) => {
-    dispatch(createBlog(newBlog));
-    blogFormToggleRef.current.toggleVisibility();
-  };
-
   const incrementBlogLikes = async (blogToUpdate) => {
     try {
       blogToUpdate.likes += 1;
@@ -98,8 +93,8 @@ function App() {
       {user !== null && (
         <>
           <LoginDetails user={user} handleLogout={() => handleLogout()} />
-          <Togglable buttonLabel="new note" ref={blogFormToggleRef}>
-            <BlogForm createBlog={createNewBlog} />
+          <Togglable id={newNoteToggleId} buttonLabel="new note">
+            <BlogForm toggleId={newNoteToggleId} />
           </Togglable>
           <Blogs
             incrementBlogLikes={incrementBlogLikes}

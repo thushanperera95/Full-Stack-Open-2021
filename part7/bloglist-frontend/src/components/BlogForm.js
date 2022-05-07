@@ -1,7 +1,12 @@
 import { React, useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { createBlog } from "../reducers/blogReducer";
+import { hideToggle } from "../reducers/toggleReducer";
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ toggleId }) => {
+  const dispatch = useDispatch();
+
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
@@ -9,11 +14,15 @@ const BlogForm = ({ createBlog }) => {
   const handleCreateBlog = (event) => {
     event.preventDefault();
 
-    createBlog({
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    });
+    dispatch(
+      createBlog({
+        title: newTitle,
+        author: newAuthor,
+        url: newUrl,
+      })
+    );
+
+    dispatch(hideToggle(toggleId));
 
     setNewTitle("");
     setNewAuthor("");
@@ -64,7 +73,7 @@ const BlogForm = ({ createBlog }) => {
 };
 
 BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
+  toggleId: PropTypes.string.isRequired,
 };
 
 export default BlogForm;

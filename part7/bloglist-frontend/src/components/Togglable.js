@@ -1,38 +1,34 @@
-import { useState, React, forwardRef, useImperativeHandle } from "react";
+import { React } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { showToggle, hideToggle } from "../reducers/toggleReducer";
 
-const Togglable = forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false);
+const Togglable = (props) => {
+  var dispatch = useDispatch();
+  const toggle = useSelector((state) => state.toggles[props.id]);
 
-  const hideWhenVisible = { display: visible ? "none" : "" };
-  const showWhenVisible = { display: visible ? "" : "none" };
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
-  useImperativeHandle(ref, () => {
-    return {
-      toggleVisibility,
-    };
-  });
+  const showWhenHidden = { display: !toggle ? "" : "none" };
+  const showWhenVisible = { display: !toggle ? "none" : "" };
 
   return (
     <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+      <div style={showWhenHidden}>
+        <button onClick={() => dispatch(showToggle(props.id))}>
+          {props.buttonLabel}
+        </button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <button onClick={() => dispatch(hideToggle(props.id))}>cancel</button>
       </div>
     </div>
   );
-});
+};
 
 Togglable.displayName = "Togglable";
 
 Togglable.propTypes = {
+  id: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
 };
 
