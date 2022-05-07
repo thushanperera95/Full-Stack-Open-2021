@@ -14,24 +14,20 @@ import {
   displayInfoNotification,
   displayErrorNotification,
 } from "./reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs, createBlog } from "./reducers/blogReducer";
 
 function App() {
   const dispatch = useDispatch();
 
-  const [blogs, setBlogs] = useState([]);
+  const blogs = useSelector((state) => state.blogs);
   const [user, setUser] = useState(null);
 
   const blogFormToggleRef = useRef();
 
-  const initializeBlogs = async () => {
-    const blogs = await blogService.getAll();
-    setBlogs(blogs);
-  };
-
   useEffect(() => {
-    initializeBlogs();
-  }, []);
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -64,20 +60,9 @@ function App() {
     dispatch(displayInfoNotification("you have logged out"));
   };
 
-  const createBlog = async (newBlog) => {
-    try {
-      const savedBlog = await blogService.create(newBlog);
-      setBlogs(blogs.concat(savedBlog));
-
-      blogFormToggleRef.current.toggleVisibility();
-      dispatch(
-        displayInfoNotification(
-          `a new blog ${savedBlog.title} by ${savedBlog.author} added`
-        )
-      );
-    } catch (exception) {
-      dispatch(displayErrorNotification(exception.response.data.error));
-    }
+  const createNewBlog = async (newBlog) => {
+    dispatch(createBlog(newBlog));
+    blogFormToggleRef.current.toggleVisibility();
   };
 
   const incrementBlogLikes = async (blogToUpdate) => {
@@ -114,10 +99,9 @@ function App() {
         <>
           <LoginDetails user={user} handleLogout={() => handleLogout()} />
           <Togglable buttonLabel="new note" ref={blogFormToggleRef}>
-            <BlogForm createBlog={createBlog} />
+            <BlogForm createBlog={createNewBlog} />
           </Togglable>
           <Blogs
-            blogs={blogs}
             incrementBlogLikes={incrementBlogLikes}
             deleteBlog={deleteBlog}
             loggedInUser={user}
