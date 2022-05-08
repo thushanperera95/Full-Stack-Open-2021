@@ -1,11 +1,11 @@
-import { React, useState } from "react";
-import PropTypes from "prop-types";
+import { React } from "react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { hideToggle } from "../reducers/toggleReducer";
 import { useField } from "../hooks";
+import { TOGGLE_ID_NEW_NOTE } from "../utils/constants";
 
-const BlogForm = ({ toggleId }) => {
+const BlogForm = () => {
   const dispatch = useDispatch();
 
   const title = useField("text", "title");
@@ -23,7 +23,7 @@ const BlogForm = ({ toggleId }) => {
       })
     );
 
-    dispatch(hideToggle(toggleId));
+    dispatch(hideToggle(TOGGLE_ID_NEW_NOTE));
 
     title.reset();
     author.reset();
@@ -50,10 +50,6 @@ const BlogForm = ({ toggleId }) => {
       </form>
     </div>
   );
-};
-
-BlogForm.propTypes = {
-  toggleId: PropTypes.string.isRequired,
 };
 
 export default BlogForm;

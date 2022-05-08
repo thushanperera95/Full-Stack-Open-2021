@@ -1,16 +1,17 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../reducers/sessionReducer";
 
-const LoginDetails = ({ user, handleLogout }) => (
-  <p>
-    {user.name} logged in
-    <button onClick={handleLogout}>logout</button>
-  </p>
-);
+const LoginDetails = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.session);
 
-LoginDetails.propTypes = {
-  user: PropTypes.object.isRequired,
-  handleLogout: PropTypes.func.isRequired,
+  return (
+    <p>
+      {user.name} logged in
+      <button onClick={() => dispatch(logout())}>logout</button>
+    </p>
+  );
 };
 
 export default LoginDetails;

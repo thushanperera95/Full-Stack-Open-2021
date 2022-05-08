@@ -1,16 +1,17 @@
 import { React, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, likeBlog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, loggedInUser }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.session);
 
   const [show, setShow] = useState(false);
   const buttonText = show ? "Hide" : "Show";
 
-  const showDeleteButton =
-    blog.user && loggedInUser.username === blog.user.username;
+  const showDeleteButton = blog.user && user.username === blog.user.username;
 
   const blogStyle = {
     paddingTop: 10,
@@ -59,7 +60,6 @@ const Blog = ({ blog, loggedInUser }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
 };
 
 export default Blog;

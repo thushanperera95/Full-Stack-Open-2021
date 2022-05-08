@@ -1,24 +1,20 @@
 import React from "react";
 import Blog from "./Blog";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const Blogs = ({ loggedInUser }) => {
+const Blogs = () => {
   const blogs = useSelector((state) => state.blogs);
+  const user = useSelector((state) => state.session);
 
   return (
     <>
       {[...blogs]
         .sort((a, b) => (a.likes > b.likes ? -1 : 1))
         .map((blog) => (
-          <Blog key={blog.id} blog={blog} loggedInUser={loggedInUser} />
+          <Blog key={blog.id} blog={blog} />
         ))}
     </>
   );
-};
-
-Blogs.propTypes = {
-  loggedInUser: PropTypes.object.isRequired,
 };
 
 export default Blogs;
