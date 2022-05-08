@@ -6,12 +6,13 @@ import { deleteBlog, likeBlog } from "../reducers/blogReducer";
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.session);
+  const authenticatedUser = useSelector((state) => state.authenticatedUser);
 
   const [show, setShow] = useState(false);
   const buttonText = show ? "Hide" : "Show";
 
-  const showDeleteButton = blog.user && user.username === blog.user.username;
+  const showDeleteButton =
+    blog.user && authenticatedUser.username === blog.user.username;
 
   const blogStyle = {
     paddingTop: 10,

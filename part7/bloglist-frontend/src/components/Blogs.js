@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Blog from "./Blog";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs } from "../reducers/blogReducer";
 
 const Blogs = () => {
+  const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
-  const user = useSelector((state) => state.session);
+
+  useEffect(() => {
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   return (
     <>

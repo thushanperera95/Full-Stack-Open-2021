@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../reducers/sessionReducer";
+import { logout } from "../reducers/authReducer";
 
 const LoginDetails = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session);
+  const authenticatedUser = useSelector((state) => state.authenticatedUser);
 
   return (
     <p>
-      {user.name} logged in
+      {authenticatedUser.name} logged in
       <button onClick={() => dispatch(logout())}>logout</button>
     </p>
   );

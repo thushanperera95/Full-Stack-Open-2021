@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import blogService from "../services/blogs";
 import loginService from "../services/login";
-import { displayErrorNotification } from "./notificationReducer";
+import {
+  displayErrorNotification,
+  displayInfoNotification,
+} from "./notificationReducer";
 
-const sessionSlice = createSlice({
-  name: "session",
+const authSlice = createSlice({
+  name: "authenticatedUser",
   initialState: null,
   reducers: {
     set(state, action) {
@@ -16,7 +19,7 @@ const sessionSlice = createSlice({
   },
 });
 
-export const { set, reset } = sessionSlice.actions;
+export const { set, reset } = authSlice.actions;
 
 export const initializeSession = () => {
   return (dispatch) => {
@@ -47,7 +50,8 @@ export const logout = () => {
     dispatch(reset());
     window.localStorage.removeItem("loggedBlogappUser");
     blogService.setToken(null);
+    dispatch(displayInfoNotification("you have logged out"));
   };
 };
 
-export default sessionSlice.reducer;
+export default authSlice.reducer;

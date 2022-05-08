@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import blogReducer from "../reducers/blogReducer";
 import notificationReducer from "../reducers/notificationReducer";
-import sessionReducer from "../reducers/sessionReducer";
+import authReducer from "../reducers/authReducer";
 import toggleReducer from "../reducers/toggleReducer";
 
 const store = configureStore({
@@ -9,7 +9,7 @@ const store = configureStore({
     notification: notificationReducer,
     blogs: blogReducer,
     toggles: toggleReducer,
-    session: sessionReducer,
+    authenticatedUser: authReducer,
   },
 });
 
