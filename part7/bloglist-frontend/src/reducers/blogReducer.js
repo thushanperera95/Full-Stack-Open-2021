@@ -58,7 +58,6 @@ export const likeBlog = (blog) => {
       const updatedBlog = await blogService.update(blogCopy.id, blogCopy);
       dispatch(update(updatedBlog));
     } catch (exception) {
-      console.log(exception);
       dispatch(displayErrorNotification(exception.response.data.error));
     }
   };
