@@ -1,6 +1,10 @@
-const UserLine = ({ name, numberOfBlogs }) => (
+import { Link } from "react-router-dom";
+
+const UserLine = ({ id, name, numberOfBlogs }) => (
   <tr>
-    <td>{name}</td>
+    <Link to={`/users/${id}`}>
+      <td>{name}</td>
+    </Link>
     <td>{numberOfBlogs}</td>
   </tr>
 );

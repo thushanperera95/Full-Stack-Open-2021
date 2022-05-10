@@ -18,6 +18,7 @@ const Users = () => {
           {users.map((user) => (
             <UserLine
               key={user.id}
+              id={user.id}
               name={user.name}
               numberOfBlogs={user.blogs.length}
             />
