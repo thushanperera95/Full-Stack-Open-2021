@@ -8,7 +8,7 @@ import {
 
 const authSlice = createSlice({
   name: "authenticatedUser",
-  initialState: null,
+  initialState: JSON.parse(localStorage.getItem("loggedBlogappUser")),
   reducers: {
     set(state, action) {
       return action.payload;
@@ -26,8 +26,8 @@ export const initializeSession = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      blogService.setToken(user.token);
       dispatch(set(user));
+      blogService.setToken(user.token);
     }
   };
 };
@@ -36,10 +36,11 @@ export const login = (credentials) => {
   return async (dispatch) => {
     try {
       const user = await loginService.login(credentials);
-      dispatch(set(user));
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
+      dispatch(set(user));
     } catch (exception) {
+      window.localStorage.removeItem("loggedBlogappUser");
       dispatch(displayErrorNotification(exception.response.data.error));
     }
   };
@@ -47,8 +48,8 @@ export const login = (credentials) => {
 
 export const logout = () => {
   return async (dispatch) => {
-    dispatch(reset());
     window.localStorage.removeItem("loggedBlogappUser");
+    dispatch(reset());
     blogService.setToken(null);
     dispatch(displayInfoNotification("you have logged out"));
   };

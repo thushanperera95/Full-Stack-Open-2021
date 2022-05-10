@@ -5,7 +5,6 @@ import { deleteBlog, likeBlog } from "../reducers/blogReducer";
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
-
   const authenticatedUser = useSelector((state) => state.authenticatedUser);
 
   const [show, setShow] = useState(false);
