@@ -13,15 +13,16 @@ const LoginDetails = () => {
   }
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+    dispatch(logout()).then(() => {
+      navigate("/login");
+    });
   };
 
   return (
-    <p>
-      {authenticatedUser.name} logged in
+    <>
+      {authenticatedUser.name} logged in{" "}
       <button onClick={handleLogout}>logout</button>
-    </p>
+    </>
   );
 };
 

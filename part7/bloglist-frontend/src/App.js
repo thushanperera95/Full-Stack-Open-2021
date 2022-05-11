@@ -1,24 +1,20 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Link, useMatch, Navigate } from "react-router-dom";
 
-import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
 import LoginDetails from "./components/LoginDetails";
-import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
 import Users from "./components/Users";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeSession } from "./reducers/authReducer";
-import { LABEL_NEW_NOTE, TOGGLE_ID_NEW_NOTE } from "./utils/constants";
 import UserDetails from "./components/UserDetails";
 import { initializeUsers } from "./reducers/userReducer";
+import BlogDetails from "./components/BlogDetails";
+import Home from "./components/Home";
 
 function App() {
   const dispatch = useDispatch();
-  const authenticatedUser = JSON.parse(
-    localStorage.getItem("loggedBlogappUser")
-  );
+  const authenticatedUser = useSelector((state) => state.authenticatedUser);
 
   useEffect(() => {
     dispatch(initializeSession());
@@ -31,27 +27,51 @@ function App() {
     ? users.find((user) => user.id === userMatch.params.id)
     : null;
 
+  const blogs = useSelector((state) => state.blogs);
+  const blogMatch = useMatch("/blogs/:id");
+  const blog = blogMatch
+    ? blogs.find((blog) => blog.id === blogMatch.params.id)
+    : null;
+
+  const backgroundColor = {
+    backgroundColor: "lightgrey",
+  };
+
+  const padding = {
+    padding: 5,
+  };
+
   return (
     <div>
+      <div style={backgroundColor}>
+        <Link style={padding} to="/">
+          blogs
+        </Link>
+        <Link style={padding} to="/users">
+          users
+        </Link>
+        <LoginDetails />
+      </div>
+
       <div>
-        <h2>blogs</h2>
+        <h2>blog app</h2>
         <Notification />
-        {<LoginDetails />}
       </div>
 
       <Routes>
         <Route
           path="/"
           element={
-            authenticatedUser ? (
-              <div>
-                <Togglable id={TOGGLE_ID_NEW_NOTE} buttonLabel={LABEL_NEW_NOTE}>
-                  <BlogForm />
-                </Togglable>
-                <Blogs />
-              </div>
+            authenticatedUser ? <Home /> : <Navigate replace to="/login" />
+          }
+        />
+        <Route
+          path="/blogs/:id"
+          element={
+            authenticatedUser && blog ? (
+              <BlogDetails blog={blog} />
             ) : (
-              <Navigate replace to="/login" />
+              <Navigate replace to="/" />
             )
           }
         />

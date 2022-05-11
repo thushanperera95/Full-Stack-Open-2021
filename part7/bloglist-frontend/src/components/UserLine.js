@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 const UserLine = ({ id, name, numberOfBlogs }) => (
   <tr>
-    <Link to={`/users/${id}`}>
-      <td>{name}</td>
-    </Link>
+    <td>
+      <Link to={`/users/${id}`}>{name}</Link>
+    </td>
     <td>{numberOfBlogs}</td>
   </tr>
 );
