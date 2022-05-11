@@ -4,6 +4,7 @@ import {
   displayInfoNotification,
   displayErrorNotification,
 } from "./notificationReducer";
+import { initializeUsers } from "./userReducer";
 
 const blogSlice = createSlice({
   name: "blogs",
@@ -45,6 +46,7 @@ export const createBlog = (blog) => {
           `a new blog ${savedBlog.title} by ${savedBlog.author} added`
         )
       );
+      dispatch(initializeUsers());
     } catch (exception) {
       dispatch(displayErrorNotification(exception.response.data.error));
     }
