@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, likeBlog } from "../reducers/blogReducer";
+import BlogComments from "./BlogComments";
 
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const BlogDetails = ({ blog }) => {
           </button>
         </>
       )}
+      <BlogComments blog={blog} />
     </div>
   );
 };

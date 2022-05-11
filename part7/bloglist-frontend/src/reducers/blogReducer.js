@@ -76,4 +76,16 @@ export const deleteBlog = (id) => {
   };
 };
 
+export const addComment = (id, comment) => {
+  return async (dispatch) => {
+    try {
+      const updatedBlog = await blogService.addComment(id, comment);
+      dispatch(update(updatedBlog));
+    } catch (exception) {
+      console.log(exception);
+      dispatch(displayErrorNotification(exception.response.data.error));
+    }
+  };
+};
+
 export default blogSlice.reducer;

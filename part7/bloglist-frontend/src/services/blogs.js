@@ -26,6 +26,13 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
+const addComment = async (id, comment) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, {
+    comment: comment,
+  });
+  return response.data;
+};
+
 const remove = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, {
     headers: {
@@ -37,4 +44,4 @@ const remove = async (id) => {
   });
 };
 
-export default { setToken, getAll, create, update, remove };
+export default { setToken, getAll, create, update, remove, addComment };
