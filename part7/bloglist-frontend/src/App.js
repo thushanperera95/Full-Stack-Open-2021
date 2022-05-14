@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Link, useMatch, Navigate } from "react-router-dom";
-
-import LoginForm from "./components/LoginForm";
-import LoginDetails from "./components/LoginDetails";
+import { Container, Typography } from "@mui/material";
+import LoginForm from "./components/login/LoginForm";
+import LoginDetails from "./components/login/LoginDetails";
 import Notification from "./components/Notification";
-import Users from "./components/Users";
+import Users from "./components/users/Users";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeSession } from "./reducers/authReducer";
-import UserDetails from "./components/UserDetails";
+import UserDetails from "./components/users/UserDetails";
 import { initializeUsers } from "./reducers/userReducer";
-import BlogDetails from "./components/BlogDetails";
+import BlogDetails from "./components/blogs/BlogDetails";
 import Home from "./components/Home";
+import { AppBar, Toolbar, Button } from "@mui/material";
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,28 +35,22 @@ function App() {
     ? blogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
-  const backgroundColor = {
-    backgroundColor: "lightgrey",
-  };
-
-  const padding = {
-    padding: 5,
-  };
-
   return (
-    <div>
-      <div style={backgroundColor}>
-        <Link style={padding} to="/">
-          blogs
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        <LoginDetails />
-      </div>
+    <Container>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h4">Blog App</Typography>
+          <Button color="inherit" component={Link} to="/">
+            blogs
+          </Button>
+          <Button color="inherit" component={Link} to="/users">
+            users
+          </Button>
+          <LoginDetails />
+        </Toolbar>
+      </AppBar>
 
       <div>
-        <h2>blog app</h2>
         <Notification />
       </div>
 
@@ -98,7 +94,7 @@ function App() {
           }
         />
       </Routes>
-    </div>
+    </Container>
   );
 }
 

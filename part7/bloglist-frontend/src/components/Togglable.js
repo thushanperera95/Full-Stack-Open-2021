@@ -2,6 +2,7 @@ import { React } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { showToggle, hideToggle } from "../reducers/toggleReducer";
+import { Button } from "@mui/material";
 
 const Togglable = (props) => {
   var dispatch = useDispatch();
@@ -13,19 +14,27 @@ const Togglable = (props) => {
   return (
     <div>
       <div style={showWhenHidden}>
-        <button onClick={() => dispatch(showToggle(props.id))}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch(showToggle(props.id))}
+        >
           {props.buttonLabel}
-        </button>
+        </Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={() => dispatch(hideToggle(props.id))}>cancel</button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => dispatch(hideToggle(props.id))}
+        >
+          cancel
+        </Button>
       </div>
     </div>
   );
 };
-
-Togglable.displayName = "Togglable";
 
 Togglable.propTypes = {
   id: PropTypes.string.isRequired,

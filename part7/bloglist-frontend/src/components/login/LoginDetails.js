@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../reducers/authReducer";
+import { logout } from "../../reducers/authReducer";
+import { Button, Typography } from "@mui/material";
 
 const LoginDetails = () => {
   const navigate = useNavigate();
@@ -20,8 +21,12 @@ const LoginDetails = () => {
 
   return (
     <>
-      {authenticatedUser.name} logged in{" "}
-      <button onClick={handleLogout}>logout</button>
+      <Typography fontStyle="italic">
+        {authenticatedUser.name} logged in
+      </Typography>
+      <Button color="inherit" onClick={handleLogout}>
+        logout
+      </Button>
     </>
   );
 };

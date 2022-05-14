@@ -25,7 +25,7 @@ const setClearNotificationTimer = (dispatch, timeIntervalSeconds = 5) => {
 
 export const displayInfoNotification = (message) => {
   return (dispatch) => {
-    dispatch(notify({ message, type: "info" }));
+    dispatch(notify({ message, type: "success" }));
     setClearNotificationTimer(dispatch);
   };
 };

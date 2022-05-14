@@ -1,13 +1,16 @@
-import { LABEL_NEW_NOTE, TOGGLE_ID_NEW_NOTE } from "../utils/constants";
+import { LABEL_NEW_BLOG, TOGGLE_ID_NEW_BLOG } from "../utils/constants";
 import Togglable from "./Togglable";
-import BlogForm from "./BlogForm";
-import Blogs from "./Blogs";
+import BlogForm from "./blogs/BlogForm";
+import Blogs from "./blogs/Blogs";
+import { Box } from "@mui/material";
 
 const Home = () => (
   <div>
-    <Togglable id={TOGGLE_ID_NEW_NOTE} buttonLabel={LABEL_NEW_NOTE}>
-      <BlogForm />
-    </Togglable>
+    <Box sx={{ m: 1 }}>
+      <Togglable id={TOGGLE_ID_NEW_BLOG} buttonLabel={LABEL_NEW_BLOG}>
+        <BlogForm />
+      </Togglable>
+    </Box>
     <Blogs />
   </div>
 );
