@@ -5,10 +5,12 @@ import { TableCell } from "@mui/material";
 
 const Blog = ({ blog }) => (
   <>
-    <TableCell>
-      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+    <TableCell id="blog-title">
+      <Link to={`/blogs/${blog.id}`} id="blog-title-link">
+        {blog.title}
+      </Link>
     </TableCell>
-    <TableCell>{blog.author}</TableCell>
+    <TableCell id="blog-author">{blog.author}</TableCell>
   </>
 );
 
