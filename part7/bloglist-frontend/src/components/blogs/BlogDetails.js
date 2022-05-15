@@ -38,7 +38,7 @@ const BlogInfo = ({ blog }) => {
       <Link href={`//${blog.url}`}>{blog.url}</Link>
       <Typography>
         Likes {blog.likes}
-        <IconButton onClick={() => dispatch(likeBlog(blog))}>
+        <IconButton id="button-like" onClick={() => dispatch(likeBlog(blog))}>
           <ThumbUpIcon />
         </IconButton>
       </Typography>
@@ -47,11 +47,12 @@ const BlogInfo = ({ blog }) => {
         {showDeleteButton && (
           <Box sx={{ my: 1 }}>
             <Button
+              id="button-delete"
               variant="outlined"
               startIcon={<DeleteIcon />}
               onClick={handleDelete}
             >
-              Delete
+              delete
             </Button>
           </Box>
         )}
@@ -92,7 +93,11 @@ const BlogComments = ({ blog }) => {
                       variant="filled"
                       {...comment.props}
                     />
-                    <Button variant="outlined" type="submit">
+                    <Button
+                      id="button-add-comment"
+                      variant="outlined"
+                      type="submit"
+                    >
                       Add
                     </Button>
                   </div>
@@ -114,15 +119,15 @@ const BlogComments = ({ blog }) => {
 const BlogDetails = ({ blog }) => {
   return (
     <div>
-      <Box sx={{ m: 1 }}>
+      <Box id="blog-title" sx={{ m: 1 }}>
         <Typography variant="h4">{blog.title}</Typography>
       </Box>
-      <Card>
+      <Card id="blog-info">
         <Box sx={{ m: 2 }}>
           <BlogInfo blog={blog} />
         </Box>
       </Card>
-      <Card>
+      <Card id="blog-comments">
         <Box sx={{ m: 2 }}>
           <BlogComments blog={blog} />
         </Box>

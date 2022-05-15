@@ -22,15 +22,15 @@ const Users = () => {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead id="users-header">
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Blogs Created</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id="users-body">
             {users.map((user) => (
-              <TableRow key={user.id}>
+              <TableRow className="users-row" key={user.id}>
                 <User
                   id={user.id}
                   name={user.name}

@@ -4,7 +4,9 @@ import { TableCell } from "@mui/material";
 const User = ({ id, name, numberOfBlogs }) => (
   <>
     <TableCell>
-      <Link to={`/users/${id}`}>{name}</Link>
+      <Link to={`/users/${id}`} id="user-title-link">
+        {name}
+      </Link>
     </TableCell>
     <TableCell>{numberOfBlogs}</TableCell>
   </>

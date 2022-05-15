@@ -40,10 +40,15 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h4">Blog App</Typography>
-          <Button color="inherit" component={Link} to="/">
+          <Button id="button-nav-blogs" color="inherit" component={Link} to="/">
             blogs
           </Button>
-          <Button color="inherit" component={Link} to="/users">
+          <Button
+            id="button-nav-users"
+            color="inherit"
+            component={Link}
+            to="/users"
+          >
             users
           </Button>
           <LoginDetails />

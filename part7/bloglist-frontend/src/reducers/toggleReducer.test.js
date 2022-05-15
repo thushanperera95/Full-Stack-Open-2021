@@ -8,7 +8,7 @@ describe("toggle reducer", () => {
     };
 
     const newState = toggleReducer(undefined, action);
-    expect(newState).toEqual([]);
+    expect(newState).toEqual({});
   });
 
   test("show results in toggle set to true in state", () => {

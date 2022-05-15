@@ -23,17 +23,17 @@ const Blogs = () => {
   return (
     <TableContainer component={Paper}>
       <Table>
-        <TableHead>
+        <TableHead id="blogs-header">
           <TableRow>
             <TableCell>Title</TableCell>
             <TableCell>Author</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody id="blogs-body">
           {[...blogs]
             .sort((a, b) => (a.likes > b.likes ? -1 : 1))
             .map((blog) => (
-              <TableRow key={blog.id}>
+              <TableRow key={blog.id} className="blogs-row">
                 <Blog blog={blog} />
               </TableRow>
             ))}

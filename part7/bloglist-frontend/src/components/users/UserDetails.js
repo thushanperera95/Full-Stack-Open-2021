@@ -22,12 +22,12 @@ const UserDetails = ({ user }) => {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead id="user-details-header">
             <TableRow>
               <TableCell>Added Blogs</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id="user-details-blogs">
             {user.blogs.map((blog) => (
               <TableRow key={blog.id}>
                 <TableCell>{blog.title}</TableCell>
