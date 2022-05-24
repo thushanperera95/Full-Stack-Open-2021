@@ -32,7 +32,13 @@ const SetBirthYear = (props) => {
       <form onSubmit={submit}>
         <div>
           name
-          <select value={name} onChange={({ target }) => setName(target.value)}>
+          <select
+            defaultValue=""
+            onChange={({ target }) => setName(target.value)}
+          >
+            <option value="" disabled hidden>
+              Select Author
+            </option>
             {authorsQueryResult.data.allAuthors.map((author) => (
               <option key={author.name} value={author.name}>
                 {author.name}
