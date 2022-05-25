@@ -152,7 +152,10 @@ const resolvers = {
       return author;
     },
     createUser: async (root, args) => {
-      const user = new User({ username: args.username });
+      const user = new User({
+        username: args.username,
+        favouriteGenre: args.favouriteGenre,
+      });
 
       try {
         await user.save();

@@ -1,21 +1,54 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from "../queries";
+import {
+  ALL_AUTHORS,
+  ALL_BOOKS,
+  BOOKS_BY_GENRE,
+  CREATE_BOOK,
+  CURRENT_USER,
+} from "../queries";
 
-const NewBook = (props) => {
+const NewBook = ({ show, setError }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [published, setPublished] = useState("");
   const [genre, setGenre] = useState("");
   const [genres, setGenres] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const [createBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+  const currentUserResult = useQuery(CURRENT_USER, {
+    onCompleted: (data) => setUser(data.me),
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
   });
 
-  if (!props.show) {
-    return null;
-  }
+  const [createBook] = useMutation(CREATE_BOOK, {
+    refetchQueries: [
+      {
+        query: ALL_AUTHORS,
+        onError: (error) => {
+          setError(error.graphQLErrors[0].message);
+        },
+      },
+      {
+        query: ALL_BOOKS,
+        onError: (error) => {
+          setError(error.graphQLErrors[0].message);
+        },
+      },
+      {
+        query: BOOKS_BY_GENRE,
+        variables: { genre: user ? user.favouriteGenre : "" },
+        onError: (error) => {
+          setError(error.graphQLErrors[0].message);
+        },
+      },
+    ],
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
+  });
 
   const submit = async (event) => {
     event.preventDefault();
@@ -35,6 +68,10 @@ const NewBook = (props) => {
     setGenres(genres.concat(genre));
     setGenre("");
   };
+
+  if (!show || currentUserResult.loading) {
+    return null;
+  }
 
   return (
     <div>

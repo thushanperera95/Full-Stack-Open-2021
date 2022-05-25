@@ -1,10 +1,14 @@
 import { useQuery } from "@apollo/client";
 import { ALL_AUTHORS } from "../queries";
 
-const Authors = (props) => {
-  const result = useQuery(ALL_AUTHORS);
+const Authors = ({ show, setError }) => {
+  const result = useQuery(ALL_AUTHORS, {
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
+  });
 
-  if (result.loading || !props.show) {
+  if (result.loading || !show) {
     return null;
   }
 

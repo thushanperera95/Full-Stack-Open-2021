@@ -1,15 +1,23 @@
 import { useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { LOGIN } from "../queries";
+import { CURRENT_USER, LOGIN } from "../queries";
 
-const LoginForm = ({ show, setToken, setPage }) => {
+const LoginForm = ({ show, setToken, setPage, setError }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [login, result] = useMutation(LOGIN, {
     onError: (error) => {
-      alert(error.graphQLErrors[0].message);
+      setError(error.graphQLErrors[0].message);
     },
+    refetchQueries: [
+      {
+        query: CURRENT_USER,
+        onError: (error) => {
+          setError(error.graphQLErrors[0].message);
+        },
+      },
+    ],
   });
 
   useEffect(() => {
@@ -21,10 +29,6 @@ const LoginForm = ({ show, setToken, setPage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.data]);
 
-  if (!show) {
-    return null;
-  }
-
   const submit = async (event) => {
     event.preventDefault();
 
@@ -35,6 +39,10 @@ const LoginForm = ({ show, setToken, setPage }) => {
 
     setPage("authors");
   };
+
+  if (!show) {
+    return null;
+  }
 
   return (
     <div>

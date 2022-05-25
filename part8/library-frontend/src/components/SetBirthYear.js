@@ -2,19 +2,35 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { ALL_AUTHORS, SET_AUTHOR_BIRTH_YEAR } from "../queries";
 
-const SetBirthYear = (props) => {
+const SetBirthYear = ({ show, setError }) => {
   const [name, setName] = useState("");
   const [born, setBorn] = useState("");
 
   const [setAuthorBirthYear] = useMutation(SET_AUTHOR_BIRTH_YEAR, {
-    refetchQueries: [{ query: ALL_AUTHORS }],
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_AUTHORS }, ({ allAuthors }) => {
+        const author = allAuthors.find(
+          (a) => a.name === response.data.editAuthor.name
+        );
+
+        const updatedAuthor = {
+          ...author,
+          born: response.data.editAuthor.born,
+        };
+
+        return {
+          allAuthors: allAuthors.map((a) =>
+            a.name === response.data.editAuthor.name ? updatedAuthor : a
+          ),
+        };
+      });
+    },
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
   });
 
   const authorsQueryResult = useQuery(ALL_AUTHORS);
-
-  if (authorsQueryResult.loading || !props.show) {
-    return null;
-  }
 
   const submit = async (event) => {
     event.preventDefault();
@@ -25,6 +41,10 @@ const SetBirthYear = (props) => {
     setName("");
     setBorn("");
   };
+
+  if (authorsQueryResult.loading || !show) {
+    return null;
+  }
 
   return (
     <div>
