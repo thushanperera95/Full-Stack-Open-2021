@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
+import { updateBookCache } from "../App";
 import {
   ALL_AUTHORS,
   ALL_BOOKS,
@@ -47,6 +48,9 @@ const NewBook = ({ show, setError }) => {
     ],
     onError: (error) => {
       setError(error.graphQLErrors[0].message);
+    },
+    update: (cache, response) => {
+      updateBookCache(cache, response.data.addBook);
     },
   });
 
