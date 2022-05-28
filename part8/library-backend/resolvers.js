@@ -33,9 +33,8 @@ const resolvers = {
     },
   },
   Author: {
-    bookCount: async (root) => {
-      const books = await Book.find({ author: root._id });
-      return books.length;
+    bookCount: async (root, args, { dataloaders }) => {
+      return await dataloaders.books.load(root._id);
     },
   },
   Mutation: {

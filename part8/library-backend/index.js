@@ -15,6 +15,8 @@ const User = require("./models/user");
 
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
+const DataLoader = require("dataloader");
+const batchBooks = require("./loaders");
 
 const MONGO_DB_URI = process.env.MONGODB_URI;
 
@@ -57,7 +59,12 @@ const start = async () => {
           process.env.JWT_SECRET_KEY
         );
         const currentUser = await User.findById(decodedToken.id);
-        return { currentUser };
+        return {
+          currentUser,
+          dataloaders: {
+            books: new DataLoader((keys) => batchBooks(keys)),
+          },
+        };
       }
     },
     plugins: [
