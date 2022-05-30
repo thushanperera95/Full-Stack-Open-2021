@@ -33,19 +33,7 @@ namespace ExerciseCalculator {
     }
   };
 
-  const validateInputs = (target: number, hours: Array<number>): void => {
-    if (target === 0) {
-      throw new Error("Target cannot be zero");
-    }
-
-    if (hours.length === 0) {
-      throw new Error("Daily exercise hours cannot be empty");
-    }
-  };
-
   const calculateExercises = (target: number, hours: Array<number>): Result => {
-    validateInputs(target, hours);
-
     const periodLength = hours.length;
     const trainingDays = hours.filter((h) => h > 0).length;
     const average =
@@ -64,8 +52,52 @@ namespace ExerciseCalculator {
     };
   };
 
+  interface CalculateExerciseArgs {
+    target: number;
+    hours: Array<number>;
+  }
+
+  const validateInputs = (target: number, hours: Array<number>): void => {
+    if (target === 0) {
+      throw new Error("Target cannot be zero");
+    }
+
+    if (hours.length === 0) {
+      throw new Error("Daily exercise hours cannot be empty");
+    }
+  };
+
+  const parseArguments = (args: Array<string>): CalculateExerciseArgs => {
+    if (args.length < 4) {
+      throw new Error("Arguments must contain <target> <hours1>...<hoursx>");
+    }
+
+    const target = Number(args[2]);
+    if (isNaN(target)) {
+      throw new Error("Target hours must be a number");
+    }
+
+    let hours = [];
+    for (let i = 3; i < args.length; i++) {
+      let dailyHours = Number(args[i]);
+      if (isNaN(dailyHours)) {
+        throw new Error("Daily hours must be a number");
+      }
+
+      hours.push(dailyHours);
+    }
+
+    validateInputs(target, hours);
+
+    return {
+      target,
+      hours,
+    };
+  };
+
   try {
-    console.log(calculateExercises(2, [3, 0, 2, 4.5, 0, 3, 1]));
+    const { target, hours } = parseArguments(process.argv);
+    console.log(calculateExercises(target, hours)); // 2, [3, 0, 2, 4.5, 0, 3, 1]
   } catch (error: unknown) {
     let errorMessage = "Something bad happened";
     if (error instanceof Error) {
