@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
   if (patient) {
     res.status(200).send(patient);
   } else {
-    res.status(404); 
+    res.sendStatus(404); 
   }
 });
 
