@@ -72,6 +72,18 @@ export type NewPatient = Omit<Patient, 'id'>;
 
 export type Fields = {name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown};
 
-//type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+export type EntryFields = {
+  description: unknown,
+  date: unknown,
+  specialist: unknown,
+  diagnosisCodes?: unknown, 
+  discharge: unknown, 
+  employerName: unknown, 
+  sickLeave: unknown, 
+  healthCheckRating: unknown,
+  type: unknown
+};
 
-//type EntryWithoutId = UnionOmit<Entry, 'id'>;
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+
+export type NewEntry = UnionOmit<Entry, 'id'>;

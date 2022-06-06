@@ -1,0 +1,22 @@
+GET http://localhost:3001/api/patients/d27736ec-f723-11e9-8f0b-362b9e155667
+
+### 
+POST http://localhost:3001/api/patients/d27736ec-f723-11e9-8f0b-362b9e155667/entries HTTP/1.1
+Content-Type: application/json
+
+{
+        "type": "Hospital",
+        "description": "Test Description",
+        "date": "1975-04-03",
+        "specialist": "Bob the builder",
+        "diagnosisCodes": ["test", "blah"],
+        "employerName": "Builder Corp",
+        "sickLeave": {
+          "startDate": "2005-01-09",
+          "endDate": "2005-01-15"
+        },
+        "discharge": {
+          "criteria": "just because",
+          "date": "2005-01-05"
+        }
+}
