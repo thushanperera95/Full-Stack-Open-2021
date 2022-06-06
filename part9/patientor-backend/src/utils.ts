@@ -74,7 +74,6 @@ const toNewPatient = ({name, dateOfBirth, ssn, gender, occupation}: Fields): New
 
 const parseType = (type: unknown): 'Hospital' | 'OccupationalHealthcare' | 'HealthCheck' => {
   if (!type || !isString(type) || (type !== 'Hospital' && type !== 'OccupationalHealthcare' && type !== 'HealthCheck')) {
-    console.log(type);
     throw new Error("Incorrect or missing type");
   }
 
@@ -121,7 +120,7 @@ const isInstanceOfDischarge = (object: unknown): object is Discharge => {
 };
 
 const parseDischarge = (discharge: unknown): Discharge => {
-  if (!discharge || !isInstanceOfDischarge(discharge) || !isString(discharge.date) || !isString(discharge.date)) {
+  if (!discharge || !isInstanceOfDischarge(discharge) || !isDate(discharge.date) || !isString(discharge.criteria)) {
     throw new Error("Incorrect or missing discharge");
   }
 
@@ -160,10 +159,6 @@ const isHealthCheckRating = (param: any): param is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (healthCheckRating: unknown): HealthCheckRating | undefined => {
-  if (!healthCheckRating) {
-    return undefined;
-  }
-
   if (!isHealthCheckRating(healthCheckRating)) {
     throw new Error("Incorrect or missing healthCheckRating: " + healthCheckRating);
   }

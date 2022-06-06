@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
     res.status(400).send(e.message);
     }
 
-    console.log('Unexpected error', e);
+    console.error('Unexpected error', e);
   }
 });
 
@@ -52,7 +52,7 @@ router.post('/:id/entries', (req, res) => {
     res.status(400).send(e.message);
     }
 
-    console.log('Unexpected error', e);
+    console.error('Unexpected error', e);
   }
 });
 
