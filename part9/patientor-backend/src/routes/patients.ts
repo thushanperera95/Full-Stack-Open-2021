@@ -43,9 +43,9 @@ router.post('/:id/entries', (req, res) => {
     const fields: EntryFields = req.body as EntryFields;
 
     const newEntry = utils.toNewEntry(fields);
-    const updatedPatient = patientService.addEntry(id, newEntry);
+    const savedEntry = patientService.addEntry(id, newEntry);
     
-    res.json(updatedPatient);
+    res.json(savedEntry);
   } 
   catch (e) {
     if (e instanceof Error) {

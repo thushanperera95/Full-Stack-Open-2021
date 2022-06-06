@@ -23,7 +23,7 @@ const addPatient = (newPatient: NewPatient): Patient => {
   return patient;
 };
 
-const addEntry = (id: string, newEntry: NewEntry): Patient => {
+const addEntry = (id: string, newEntry: NewEntry): Entry => {
   const patient = patients.find(p => p.id === id);
   if (!patient) {
     throw new Error(`Unable to find person with id ${id}`);
@@ -35,7 +35,7 @@ const addEntry = (id: string, newEntry: NewEntry): Patient => {
   };
 
   patient.entries.push(entry);
-  return patient;
+  return entry;
 };
 
 const getPatient = (id: string): Patient | undefined => {
